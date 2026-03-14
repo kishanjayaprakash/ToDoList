@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDoListt</title>
-<link rel="stylesheet" href="style.css">
-<script src="app.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo Tasks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <h1>ToDo App</h1>
-    <div class="wrapper">
-        <form>
-            <input id="todo-input" type="text" placeholder="Write anything and hit enter to add " autocomplete="off">
-        <button id="add-button">ADD</button>
-        </form>
-        <ul id="todo-list">
-            </li>
-        </ul>
-    </div>
+
+  <h1>To<span>Do</span> Tasks</h1>
+
+  <div class="wrapper">
+
+    <form id="todo-form">
+      <input id="todo-input" type="text" placeholder="Write a task..." autocomplete="off">
+      <input id="deadline-input" type="datetime-local">
+      <button type="submit" id="add-button">ADD</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+    <p class="empty" id="empty">No tasks yet — add one above.</p>
+
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

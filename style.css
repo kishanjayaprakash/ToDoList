@@ -1,19 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Outfit', sans-serif;
   background: #0f0f0f;
   min-height: 100vh;
-  padding: 40px 16px;
+  padding: 48px 16px 80px;
 }
-
-/* ── Title — centered at top ──────────────────────────── */
 
 h1 {
   text-align: center;
@@ -23,12 +17,7 @@ h1 {
   letter-spacing: -0.02em;
   margin-bottom: 32px;
 }
-
-h1 span {
-  color: #7c5cfc;
-}
-
-/* ── Wrapper — everything centered on page ────────────── */
+h1 span { color: #7c5cfc; }
 
 .wrapper {
   width: 100%;
@@ -36,54 +25,53 @@ h1 span {
   margin: 0 auto;
 }
 
-/* ── Form ─────────────────────────────────────────────── */
-
 form {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-bottom: 28px;
 }
 
-#todo-input {
-  flex: 1;
+#todo-input,
+#deadline-input {
+  width: 100%;
   background: #1a1a1a;
   border: 1.5px solid #2a2a2a;
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 13px 16px;
   font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  color: #ffffff;
+  font-size: 14px;
+  color: #fff;
   outline: none;
   transition: border-color 0.2s;
 }
 
-#todo-input::placeholder {
-  color: #555;
-}
+#todo-input::placeholder { color: #555; }
+#todo-input:focus,
+#deadline-input:focus { border-color: #7c5cfc; }
 
-#todo-input:focus {
-  border-color: #7c5cfc;
+#deadline-input { color: #777; cursor: pointer; }
+#deadline-input:focus { color: #fff; }
+#deadline-input::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.3);
+  cursor: pointer;
 }
 
 #add-button {
   background: #7c5cfc;
-  color: #ffffff;
+  color: #fff;
   border: none;
   border-radius: 12px;
-  padding: 14px 22px;
+  padding: 14px;
   font-family: 'Outfit', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
-  white-space: nowrap;
 }
-
-#add-button:hover { background: #6a4ae8; }
-#add-button:active { transform: scale(0.97); }
-
-/* ── Todo list ────────────────────────────────────────── */
+#add-button:hover  { background: #6a4ae8; }
+#add-button:active { transform: scale(0.98); }
 
 #todo-list {
   list-style: none;
@@ -94,75 +82,151 @@ form {
 
 .todo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   background: #1a1a1a;
   border: 1.5px solid #2a2a2a;
   border-radius: 14px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   transition: border-color 0.2s;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .todo:hover { border-color: #3a3a3a; }
+
+.todo.overdue {
+  border-color: #5c1a1a;
+  background: #130f0f;
+}
+.todo.overdue .deadline-badge {
+  color: #f87171;
+  background: #2a0f0f;
+}
+
+.todo.done { opacity: 0.4; }
+.todo.done .todo-text { text-decoration: line-through; color: #555; }
 
 .todo input[type="checkbox"] { display: none; }
 
 .custom-checkbox {
   width: 22px;
   height: 22px;
+  min-width: 22px;
   border-radius: 50%;
   border: 2px solid #444;
-  flex-shrink: 0;
   cursor: pointer;
+  margin-top: 1px;
   transition: background 0.2s, border-color 0.2s;
 }
-
 .custom-checkbox:hover { border-color: #7c5cfc; }
-
-.todo > svg {
-  display: none;
-  color: #7c5cfc;
-  flex-shrink: 0;
-}
 
 .todo input[type="checkbox"]:checked ~ .custom-checkbox {
   background: #7c5cfc;
   border-color: #7c5cfc;
 }
 
-.todo input[type="checkbox"]:checked ~ svg { display: block; }
+.check-svg {
+  display: none;
+  color: #7c5cfc;
+  min-width: 24px;
+  margin-top: 1px;
+}
+.todo input[type="checkbox"]:checked ~ .check-svg { display: block; }
 
-.todo-next {
-  flex: 1;
-  font-size: 15px;
+.task-body { flex: 1; min-width: 0; }
+
+.todo-text {
+  font-size: 14px;
   color: #e0e0e0;
-  cursor: pointer;
   line-height: 1.4;
-  transition: color 0.2s;
+  cursor: pointer;
+  display: block;
+  word-break: break-word;
 }
 
-.todo input[type="checkbox"]:checked ~ .todo-next {
-  text-decoration: line-through;
-  color: #555;
+.deadline-badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #a78bfa;
+  background: #1e1a2e;
+  border-radius: 5px;
+  padding: 2px 8px;
 }
 
-/* ── Delete button ────────────────────────────────────── */
-
-.delete-button {
+.delete-btn {
   background: none;
   border: none;
   cursor: pointer;
   color: #444;
-  padding: 4px;
-  border-radius: 8px;
+  padding: 2px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, background 0.2s;
+  transition: color 0.15s;
   flex-shrink: 0;
 }
+.delete-btn:hover { color: #ef4444; }
 
-.delete-button:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
+.empty {
+  text-align: center;
+  color: #444;
+  font-size: 14px;
+  padding: 40px 0;
+  display: none;
 }
+.empty.show { display: block; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup {
+  background: #1a1a1a;
+  border: 1.5px solid #2a2a2a;
+  border-radius: 18px;
+  padding: 32px 28px;
+  max-width: 340px;
+  width: 90%;
+  text-align: center;
+  transform: scale(0.95);
+  transition: transform 0.2s;
+}
+.overlay.show .popup { transform: scale(1); }
+
+.popup-emoji { font-size: 36px; margin-bottom: 12px; }
+.popup h2    { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+.popup p     { font-size: 14px; color: #888; line-height: 1.6; margin-bottom: 24px; }
+
+.popup-btn {
+  background: #7c5cfc;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.popup-btn:hover { background: #6a4ae8; }
